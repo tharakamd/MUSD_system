@@ -25,6 +25,10 @@ public class app {
 		boolean pww = lc.checkForUserExisting("IP0001","123456");
 		System.out.println(pww);
 		
+		// opening the loging window
+		LoginWindow loginWindow = new LoginWindow();
+		loginWindow.show();
+		
 	}
 
 }
