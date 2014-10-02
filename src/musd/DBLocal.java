@@ -4,6 +4,8 @@ package musd;
 import java.awt.List;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 
 public class DBLocal {
 	// global variables for database
@@ -134,6 +136,49 @@ public class DBLocal {
 		return result;
 	}
 
+	public boolean addLocal(String tableName, Table table){
+		StringBuilder columns= new StringBuilder();
+		StringBuilder value = new StringBuilder();
+		ArrayList<Recode> tableTypes = table.getTable();
+		Iterator<Recode> it = tableTypes.iterator();
+		boolean first = true;
+		while(it.hasNext()){
+			if(!first)
+			{
+				columns.append(",");
+				value.append(",");
+			}else
+				first = false;
+			Recode recode = it.next();
+			columns.append(recode.getColumn());
+			value.append(getValue(recode));
+			
+		}
+		StringBuilder sql = new StringBuilder();
+		sql.append("INSERT INTO ");
+		sql.append(tableName + " (");
+		sql.append(columns.toString()+ " ) VALUES ( ");
+		sql.append(value.toString() + " )");
+		return executeLocal(sql.toString());
+		
+	}
+	
+	public String getValue(Recode recode){
+		int type = recode.getType();
+		switch(type){
+		case 0:
+			return String.valueOf(recode.getValInt());
+		case 1:
+			//String.valueOf(recode.getv);break;
+		case 2:
+			return String.valueOf(recode.getValDouble());
+			default:
+			return	"'" + String.valueOf(recode.getValString()) + "'";
+			
+		}
+		
+	}
+	
 	public boolean executeLocal(String sql) {
 		// creating objects
 		boolean result = false;
