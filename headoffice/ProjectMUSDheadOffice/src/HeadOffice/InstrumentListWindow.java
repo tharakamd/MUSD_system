@@ -20,52 +20,52 @@ public class InstrumentListWindow extends javax.swing.JFrame {
     DBLocal db;
 
     public InstrumentListWindow() {
-        
-         try {
+
+        try {
             ClassLoader cl = this.getClass().getClassLoader();
             ImageIcon programIcon = new ImageIcon("logo.png");
             setIconImage(programIcon.getImage());
         } catch (Exception whoJackedMyIcon) {
             System.out.println("Could not load program icon.");
         }
-        
-        
-        this.setLocationRelativeTo(null);
+
         initComponents();
+        this.setLocationRelativeTo(null);
         initTable();
+
     }
-    
-    public void setDB(DBLocal db){
+
+    public void setDB(DBLocal db) {
         this.db = db;
         initTable();
     }
 
     private void initTable() {
         ArrayList list;
-        int num=0;
+        int num = 0;
         String array[][] = new String[400][4];
         for (int i = 0; i < 100; i++) {
             try {
                 list = db.selectLocal("equipment", "id", "indexx = '" + i + "'");
                 if (list != null) {
-                    array[num][0] = (String)list.remove(0);
+                    array[num][0] = (String) list.remove(0);
                     list = db.selectLocal("equipment", "name", "indexx = '" + i + "'");
-                    array[num][1] = (String)list.remove(0);
+                    array[num][1] = (String) list.remove(0);
                     list = db.selectLocal("equipment", "catagory", "indexx = '" + i + "'");
-                    array[num][2] = (String)list.remove(0);
+                    array[num][2] = (String) list.remove(0);
                     list = db.selectLocal("equipment", "rate", "indexx = '" + i + "'");
-                    array[num][3] = (String)list.remove(0);
+                    array[num][3] = (String) list.remove(0);
                     num++;
                 }
             } catch (Exception e) {
 
             }
         }
-         tblMain.setModel(new javax.swing.table.DefaultTableModel(
-            array,
-            new String [] {
-                "ID", "Name", "Catagory", "Rate"
-            }
+        tblMain.setModel(new javax.swing.table.DefaultTableModel(
+                array,
+                new String[]{
+                    "ID", "Name", "Catagory", "Rate"
+                }
         ));
     }
 

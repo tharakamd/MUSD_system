@@ -10,10 +10,10 @@ package MUSD;
  *
  * @author tharaka
  */
-public class DefaultChecker {
+public  class DefaultChecker {
     
     // check whether the given string is a string
-public boolean isInt(String input){
+public static boolean isInt(String input){
     try{
         int i = Integer.parseInt(input);
     }catch(Exception e){
@@ -22,7 +22,7 @@ public boolean isInt(String input){
     return true;
 }
 
-public boolean isDouble(String input){
+public static boolean isDouble(String input){
     try{
         double i = Double.parseDouble(input);
     }catch(Exception e){

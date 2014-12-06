@@ -20,33 +20,62 @@ public class MS2Creator {
     }
     
     private void addData(){
-        DefaultTableModel tblModel = new DefaultTableModel();
-        
-        /*
-        have to write code to find the table related to the inspector id
-        */
-        // tmp code
-        
-           String tableName = this.inspectorId;
-           ArrayList row = new ArrayList();
-           String currentDate = new String();
-           for(int date=1;date<32;date++){
-               currentDate = String.valueOf(year) + "-" + String.valueOf(month) + "-" + String.valueOf(date);
-               ArrayList tmpData;
+       String array[][] = new String[31][11];
+       ArrayList list = new ArrayList();
+       String date = String.valueOf(year) + "-" + String.valueOf(month);
+       for(int i=1;i<=31;i++){
+           String tmpDate = date + "-" + String.valueOf(i);
+           list = db.selectLocal(inspectorId, "'Date'","Date = '" + tmpDate + "'" );
+           if(list !=null){
+               array[i-1][0] = (String)list.remove(0);
                
-               // getting values
+               list = db.selectLocal(inspectorId, "'Details of the circuit stamping'","Date = '" + tmpDate + "'" );
+               array[i-1][1] = (String)list.remove(0);
                
-               // date
-               row.add(currentDate);
+               list = db.selectLocal(inspectorId, "'Issued varification No. From'","Date = '" + tmpDate + "'" );
+               array[i-1][2] = (String)list.remove(0);
                
-               // location
+               list = db.selectLocal(inspectorId, "'Issued varification No. To'","Date = '" + tmpDate + "'" );
+               array[i-1][3] = (String)list.remove(0);
                
-               tmpData = db.selectLocal(tableName, "	Stamping Center", "Date = \"" + currentDate + "\"");
-             
+               list = db.selectLocal(inspectorId, "'Amount'","Date = '" + tmpDate + "'" );
+               array[i-1][4] = (String)list.remove(0);
+               
+               list = db.selectLocal(inspectorId, "'Date of money deposit'","Date = '" + tmpDate + "'" );
+               array[i-1][5] = (String)list.remove(0);
+               
+               list = db.selectLocal(inspectorId, "'Branch'","Date = '" + tmpDate + "'" );
+               array[i-1][6] = (String)list.remove(0); 
+               
+               list = db.selectLocal(inspectorId, "'Bill No.'","Date = '" + tmpDate + "'" );
+               array[i-1][7] = (String)list.remove(0); 
+               
+            //   list = db.selectLocal(inspectorId, "'Branch'","Date = '" + tmpDate + "'" );
+               array[i-1][8] ="#########"; 
+               
+             //  list = db.selectLocal(inspectorId, "'Branch'","Date = '" + tmpDate + "'" );
+               array[i-1][9] = "##########"; 
+               
+               list = db.selectLocal(inspectorId, "'No. of Traders'","Date = '" + tmpDate + "'" );
+               array[i-1][10] = (String)list.remove(0);    
+               
+           }else
+           {
+               break;
            }
-        // tmp code ended
            
-        
+       }
+       
+       table.setModel(new javax.swing.table.DefaultTableModel(
+            array,
+            new String [] {
+                "Date", "Location", "W/ME no.", "M/S/2 No.", "Amount", "Date of Deposit", "Bank Branch", "Receipt No", "Total Deposit", "Assistant", "No of Traders"
+            }
+        ));
+       
+       
+       
+       
     }
     
 }

@@ -30,8 +30,9 @@ public class InstrumentListWindow extends javax.swing.JFrame {
         }
         
         
-        this.setLocationRelativeTo(null);
+        
         initComponents();
+        this.setLocationRelativeTo(null);
         initTable();
     }
     
@@ -44,7 +45,7 @@ public class InstrumentListWindow extends javax.swing.JFrame {
         ArrayList list;
         int num=0;
         String array[][] = new String[400][4];
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 40; i++) {
             try {
                 list = db.selectLocal("equipment", "id", "indexx = '" + i + "'");
                 if (list != null) {

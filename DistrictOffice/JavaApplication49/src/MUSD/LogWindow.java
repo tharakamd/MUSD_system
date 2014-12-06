@@ -17,12 +17,13 @@ import javax.swing.UIManager;
 public class LogWindow extends javax.swing.JFrame {
 
     // logging creator to support the loggingWindow
-	LogingCreator logingCreator = new LogingCreator();
+    LogingCreator logingCreator = new LogingCreator();
+
     /**
      * Creates new form LogWindow
      */
     public LogWindow() {
-        
+
         try {
             ClassLoader cl = this.getClass().getClassLoader();
             ImageIcon programIcon = new ImageIcon("logo.png");
@@ -30,7 +31,7 @@ public class LogWindow extends javax.swing.JFrame {
         } catch (Exception whoJackedMyIcon) {
             System.out.println("Could not load program icon.");
         }
-        
+
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -55,10 +56,18 @@ public class LogWindow extends javax.swing.JFrame {
         setTitle("Loging");
         setResizable(false);
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel1.setText("User name");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
         jLabel2.setText("Password");
 
+        txtUn.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        txtPw.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+
+        btnLogin.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MUSD/key177.png"))); // NOI18N
         btnLogin.setText("Login");
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,6 +75,8 @@ public class LogWindow extends javax.swing.JFrame {
             }
         });
 
+        btnCancel.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        btnCancel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/MUSD/door9 (1).png"))); // NOI18N
         btnCancel.setText("Cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,62 +97,59 @@ public class LogWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtPw, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtUn, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(44, 44, 44))
+                    .addComponent(btnCancel, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(txtUn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnLogin)))
-                .addGap(32, 32, 32)
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(txtUn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtPw, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancel))
-                .addContainerGap(55, Short.MAX_VALUE))
+                    .addComponent(jLabel2))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-         // reading the text fields
-    	String id = txtUn.getText();
+        // reading the text fields
+        String id = txtUn.getText();
         String pwd = txtPw.getText();
         boolean getAccess = logingCreator.checkForUserExisting(id, pwd);
-        if(getAccess){
-        	JOptionPane.showMessageDialog(null, "Access granted");
-                MainWindow mainWindow = new MainWindow();
-                
-                
-                DBLocal db = logingCreator.getDatabase();
-                ArrayList datatmp = new ArrayList();
-                
-                datatmp = db.selectLocal("inspectordetails","firstname","username = \"" + id + "\"");
-                String name = (String)datatmp.remove(0);
-                datatmp = db.selectLocal("inspectordetails","lastname","username = \"" + id + "\"");
-                name = name + " " + (String)datatmp.remove(0);
-                
-                datatmp = db.selectLocal("inspectordetails","disrtict","username = \"" + id + "\"");
-                String district = (String)datatmp.remove(0);
-                
-                
-                User user = new User(id, name, district);
-                
-                System.out.println("user name = " + user.getName() + " \n district = " + user.getDistrict() + " \n id = " + user.getId());
-                mainWindow.setWindow(user, db);
-                mainWindow.show();
-                this.dispose();
+        if (getAccess) {
+            JOptionPane.showMessageDialog(null, "Access granted");
+            MainWindow mainWindow = new MainWindow();
+
+            DBLocal db = logingCreator.getDatabase();
+            ArrayList datatmp = new ArrayList();
+
+            datatmp = db.selectLocal("inspectordetails", "firstname", "username = \"" + id + "\"");
+            String name = (String) datatmp.remove(0);
+            datatmp = db.selectLocal("inspectordetails", "lastname", "username = \"" + id + "\"");
+            name = name + " " + (String) datatmp.remove(0);
+
+            datatmp = db.selectLocal("inspectordetails", "disrtict", "username = \"" + id + "\"");
+            String district = (String) datatmp.remove(0);
+
+            User user = new User(id, name, district);
+
+            System.out.println("user name = " + user.getName() + " \n district = " + user.getDistrict() + " \n id = " + user.getId());
+            mainWindow.setWindow(user, db);
+            mainWindow.show();
+            this.dispose();
         	//iw.setDB(logingCreator.getDatabase());
-        	//iw.show();
+            //iw.show();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
@@ -154,12 +162,12 @@ public class LogWindow extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-            try {
+        try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
             System.out.println("errrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
         }
-        
+
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
